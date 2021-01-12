@@ -45,4 +45,28 @@ class PlanetaController(private var planetaService: PlanetaService) {
         return ResponseEntity(planetaResponse, status)
     }
 
+    @GetMapping("/all")
+    fun buscarTodosPlanetas() : ResponseEntity<List<PlanetaResponse>> {
+        val listPlanetas = planetaService.findAll()
+        val status = if (listPlanetas.isEmpty()) HttpStatus.NOT_FOUND else HttpStatus.OK
+        return ResponseEntity(listPlanetas, status)
+    }
+
+    @GetMapping("/all/paginated")
+    fun buscarTodosPlanetasComPaginacaoOrdenacao(@RequestParam(value = "page", defaultValue = "0") page: Int,
+                                                 @RequestParam(value = "size", defaultValue = "10") size: Int,
+                                                 @RequestParam(value = "sorted", defaultValue = "asc") sorted: String,
+                                                 @RequestParam(value = "sorted_field", defaultValue = "nome") sortedField: String)
+    : ResponseEntity<List<PlanetaResponse>> {
+        val listPlanetas = planetaService.findAllPaginatedAndSorted(page, size, sorted, sortedField)
+        val status = if (listPlanetas.isEmpty()) HttpStatus.NOT_FOUND else HttpStatus.OK
+        return ResponseEntity(listPlanetas, status)
+    }
+
+    @GetMapping("/count")
+    fun calcularQuantidadeRegistrosPlanetas() : ResponseEntity<Map<String, Long>> {
+        val count = mapOf("count" to planetaService.count())
+        return ResponseEntity(count, HttpStatus.OK)
+    }
+
 }

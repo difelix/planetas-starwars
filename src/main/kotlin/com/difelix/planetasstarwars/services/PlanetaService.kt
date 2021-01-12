@@ -14,4 +14,10 @@ interface PlanetaService {
 
     fun searchByPlanetName(nome: String) : PlanetaResponse?
 
+    fun findAll() : List<PlanetaResponse>
+
+    fun findAllPaginatedAndSorted(page: Int, size: Int, sorted: String, fieldSorted: String) : List<PlanetaResponse>
+
+    fun count() : Long
+
 }
