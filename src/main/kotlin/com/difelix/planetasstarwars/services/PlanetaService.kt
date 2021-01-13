@@ -8,11 +8,11 @@ interface PlanetaService {
 
     fun save(planetaRequest: PlanetaRequest) : PlanetaResponse
 
-    fun update(id: Long, planetaRequest: PlanetaRequest) : PlanetaResponse?
+    fun update(id: Long, planetaRequest: PlanetaRequest) : PlanetaResponse
 
-    fun delete(id: Long) : HttpStatus
+    fun delete(id: Long)
 
-    fun searchByPlanetName(nome: String) : PlanetaResponse?
+    fun searchByPlanetName(nome: String) : PlanetaResponse
 
     fun findAll() : List<PlanetaResponse>
 

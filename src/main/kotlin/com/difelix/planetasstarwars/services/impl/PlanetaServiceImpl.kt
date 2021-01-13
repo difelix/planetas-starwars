@@ -1,5 +1,6 @@
 package com.difelix.planetasstarwars.services.impl
 
+import com.difelix.planetasstarwars.exceptions.NotFoundException
 import com.difelix.planetasstarwars.models.dtos.PlanetaRequest
 import com.difelix.planetasstarwars.models.dtos.PlanetaResponse
 import com.difelix.planetasstarwars.models.dtos.toPlaneta
@@ -21,11 +22,11 @@ class PlanetaServiceImpl(private var planetaRepository: PlanetaRepository) : Pla
         return planeta.toPlanetaResponse()
     }
 
-    override fun update(id: Long, planetaRequest: PlanetaRequest): PlanetaResponse? {
+    override fun update(id: Long, planetaRequest: PlanetaRequest): PlanetaResponse {
         val existPlaneta = planetaRepository.existsById(id)
 
         if (!existPlaneta) {
-            return null
+            throw NotFoundException("Planeta com id [$id] não foi encontrado")
         }
 
         var planeta = planetaRequest.toPlaneta()
@@ -35,17 +36,17 @@ class PlanetaServiceImpl(private var planetaRepository: PlanetaRepository) : Pla
         return planeta.toPlanetaResponse()
     }
 
-    override fun delete(id: Long): HttpStatus {
-        if (planetaRepository.existsById(id)) {
-            planetaRepository.deleteById(id)
-            return HttpStatus.ACCEPTED
-        }
-        return HttpStatus.NOT_FOUND
+    override fun delete(id: Long) {
+        if (!planetaRepository.existsById(id))
+            throw NotFoundException("Planeta com id [$id] não foi encontrado")
+        planetaRepository.deleteById(id)
     }
 
-    override fun searchByPlanetName(nome: String): PlanetaResponse? {
+    override fun searchByPlanetName(nome: String): PlanetaResponse {
         val planeta = planetaRepository.findByNome(nome)
-        return if (planeta.isPresent) planeta.get().toPlanetaResponse() else null
+        val planetaEncontrado = planeta.orElseThrow {
+            NotFoundException("Planeta com nome [$nome] não foi encontrado") }
+        return planetaEncontrado.toPlanetaResponse()
     }
 
     override fun findAll(): List<PlanetaResponse> {

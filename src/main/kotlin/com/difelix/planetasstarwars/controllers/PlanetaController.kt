@@ -26,23 +26,21 @@ class PlanetaController(private var planetaService: PlanetaService) {
     }
 
     @PutMapping("/{id}")
-    fun atualizarPlaneta(@PathVariable id: Long, @RequestBody planetaRequest: PlanetaRequest) : ResponseEntity<PlanetaResponse?> {
+    fun atualizarPlaneta(@PathVariable id: Long, @RequestBody planetaRequest: PlanetaRequest) : ResponseEntity<PlanetaResponse> {
         val planetaResponse = planetaService.update(id, planetaRequest)
-        val status = if (planetaResponse == null) HttpStatus.NOT_FOUND else HttpStatus.OK
-        return ResponseEntity(planetaResponse, status)
+        return ResponseEntity(planetaResponse, HttpStatus.OK)
     }
 
     @DeleteMapping("/{id}")
     fun apagarPlaneta(@PathVariable id: Long) : ResponseEntity<Unit> {
-        val status = planetaService.delete(id)
-        return ResponseEntity(status)
+        planetaService.delete(id)
+        return ResponseEntity(HttpStatus.ACCEPTED)
     }
 
     @GetMapping
-    fun buscarPlanetaPeloNome(@RequestParam(value = "nome", required = true) nome: String) : ResponseEntity<PlanetaResponse?> {
+    fun buscarPlanetaPeloNome(@RequestParam(value = "nome", required = true) nome: String) : ResponseEntity<PlanetaResponse> {
         val planetaResponse = planetaService.searchByPlanetName(nome)
-        val status = if (planetaResponse == null) HttpStatus.NOT_FOUND else HttpStatus.OK
-        return ResponseEntity(planetaResponse, status)
+        return ResponseEntity(planetaResponse, HttpStatus.OK)
     }
 
     @GetMapping("/all")
