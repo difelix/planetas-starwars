@@ -55,16 +55,15 @@ class PlanetaServiceImpl(private var planetaRepository: PlanetaRepository) : Pla
     override fun findAllPaginatedAndSorted(
         page: Int,
         size: Int,
-        sorted: String,
-        fieldSorted: String
+        sort: String,
+        sortField: String
     ): List<PlanetaResponse> {
-        val sort = when(sorted) {
-            CampoPlanetaSort.ASC.sort -> Sort.by(fieldSorted).ascending()
-            CampoPlanetaSort.DESC.sort -> Sort.by(fieldSorted).descending()
-            else -> Sort.by(fieldSorted).ascending()
-        }
+        val tipoOrdenacao = CampoPlanetaSort.contains(sort)
+        val campoOrdenacao = CampoPlanetaBusca.contains(sortField)
 
-        val pagination = PageRequest.of(page, size, sort)
+        val pagination = if (tipoOrdenacao == CampoPlanetaSort.ASC)
+            PageRequest.of(page, size, Sort.by(campoOrdenacao.campo).ascending())
+        else PageRequest.of(page, size, Sort.by(campoOrdenacao.campo).descending())
 
         return planetaRepository.findAll(pagination).map { planeta -> planeta.toPlanetaResponse() }
     }

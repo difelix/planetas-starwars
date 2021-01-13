@@ -2,6 +2,7 @@ package com.difelix.planetasstarwars.models.dtos
 
 import com.difelix.planetasstarwars.models.entities.Planeta
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.time.LocalDateTime
 
 data class PlanetaRequest(
 
@@ -19,5 +20,6 @@ data class PlanetaRequest(
 fun PlanetaRequest.toPlaneta() = Planeta(
     nome = nome.orEmpty(),
     clima = clima.orEmpty(),
-    terreno = terreno.orEmpty()
+    terreno = terreno.orEmpty(),
+    dataCriacao = LocalDateTime.now()
 )

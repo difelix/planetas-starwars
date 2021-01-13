@@ -16,7 +16,7 @@ interface PlanetaService {
 
     fun findAll() : List<PlanetaResponse>
 
-    fun findAllPaginatedAndSorted(page: Int, size: Int, sorted: String, fieldSorted: String) : List<PlanetaResponse>
+    fun findAllPaginatedAndSorted(page: Int, size: Int, sort: String, sortField: String) : List<PlanetaResponse>
 
     fun count() : Long
 

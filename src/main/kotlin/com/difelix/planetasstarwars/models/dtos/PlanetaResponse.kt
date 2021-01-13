@@ -2,6 +2,7 @@ package com.difelix.planetasstarwars.models.dtos
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.time.LocalDateTime
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 data class PlanetaResponse(
@@ -16,6 +17,9 @@ data class PlanetaResponse(
     var clima: String? = null,
 
     @JsonProperty("terreno")
-    var terreno: String? = null
+    var terreno: String? = null,
+
+    @JsonProperty("data_criacao")
+    var dataCriacao: LocalDateTime? = null
 
 )
