@@ -23,6 +23,6 @@ class HandlerException {
     @ExceptionHandler(NotFoundException::class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     fun notFoundException(ex: NotFoundException, request: WebRequest) =
-        ErrorMessage(erro = "Planeta não encontrado", mensagemErro = ex.message.orEmpty())
+        ErrorMessage(erro = "NOT_FOUND", mensagemErro = ex.message.orEmpty())
 
 }

@@ -11,7 +11,6 @@ import com.difelix.planetasstarwars.repositories.PlanetaRepository
 import com.difelix.planetasstarwars.services.PlanetaService
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
-import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 
 @Service
@@ -25,9 +24,8 @@ class PlanetaServiceImpl(private var planetaRepository: PlanetaRepository) : Pla
     override fun update(id: Long, planetaRequest: PlanetaRequest): PlanetaResponse {
         val existPlaneta = planetaRepository.existsById(id)
 
-        if (!existPlaneta) {
+        if (!existPlaneta)
             throw NotFoundException("Planeta com id [$id] não foi encontrado")
-        }
 
         var planeta = planetaRequest.toPlaneta()
         planeta.id = id
